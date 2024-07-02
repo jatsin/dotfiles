@@ -126,5 +126,8 @@ source <(fzf --zsh)
 # Neovim
 export PATH="$PATH:$HOME/neovim/bin"
 
+# home bin
+export PATH="$PATH:$HOME/.local/bin"
+
 # set vi on command line
 set -o vi
