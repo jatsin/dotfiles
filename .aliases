@@ -44,4 +44,11 @@ alias egrep='egrep --color=auto'
 alias week='date +%V'
 
 alias reload="source ~/.zshrc"
+alias cft="curl https://www.cloudflare.com/cdn-cgi/trace/"
+alias cfc="warp-cli connect"
+alias cfd="warp-cli disconnect"
+alias connector="cd $HOME/work/rc-connector"
+alias license="cd $HOME/work/license-service"
+alias plan="cd $HOME/work/plan-service"
+alias vision="cd $HOME/work/vision"
 alias dotfiles="cd ~/.dotfiles"
