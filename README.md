@@ -4,32 +4,18 @@ Hopefully no more hassle to manage dotfiles
 
 ## Pre-requisites
 
-Ensure below packages are installed
-
-### Git
-
-```
-sudo apt install git
-```
-
-### Stow
-```
-sudo apt install stow
-```
+Ensure `git` and `stow` are installed
 
 ## Installation
 
-First of all, checkout dotfiles repo in your $HOME directory
+Fetch the code and run setup script
 
 ```
+cd
 git clone https://github.com/jatindersinghbraich/dotfiles.git
 cd dotfiles
+./setup
 ```
+## Install Everything
 
-Secondly, stow to create symlinks
-
-```
-stow .
-```
-
-
+To save reinstalling hassle, use [install_everything](https://github.com/jatsin/dotfiles/blob/update-readme/scripts/install_everything.sh) to install mostly required applications.
