@@ -17,48 +17,77 @@ ag_install $ESSENTIALS
 
 ## Cloudflare warp
 # Install cloudflare warp
-install_cloudflare_warp
-# download cloudflare cert
-wget $CLOUDFLARE_CERT_URL -O $CLOUDFLATE_CERT
-# install cloudflare cert
-sudo cp $CLOUDFLATE_CERT /usr/share/ca-certificates/
-sudo dpkg-reconfigure ca-certificates
+if ! is_installed warp_cli
+then
+    install_cloudflare_warp
+    # download cloudflare cert
+    wget $CLOUDFLARE_CERT_URL -O $CLOUDFLATE_CERT
+    # install cloudflare cert
+    sudo cp $CLOUDFLATE_CERT /usr/share/ca-certificates/
+    sudo dpkg-reconfigure ca-certificates
+else
+    echo "Cloudflare is already installed"
+fi
 
 ## zsh
 # Install zsh
-ag_install zsh
-# Install oh-my-zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+if ! is_installed zsh
+then
+    ag_install zsh
+    # Install oh-my-zsh
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+else
+    echo "zsh is already installed"
+fi
 
 ## Docker
 # Install docker
-install_docker
-sudo groupadd docker
-sudo usermod -aG docker $USER
-sudo systemctl restart docker
-# Not necessary
-sudo chmod 666 /var/run/docker.sock
+if ! is_installed docker
+then
+    install_docker
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    sudo systemctl restart docker
+    # Not necessary
+    sudo chmod 666 /var/run/docker.sock
+else
+    echo "Docker is already installed"
+fi
 
 ## kubectl
 # Install kubectl
-install_kubectl
-# download kubelogin plugin
-if [[ ! -f $LOCAL_BIN/kubelogin ]]; then
-    wget https://github.com/int128/kubelogin/releases/download/v1.28.1/kubelogin_linux_amd64.zip -O $TEMP/kubelogin_linux_amd64.zip
-    unzip $TEMP/kubelogin_linux_amd64.zip -d $TEMP/kubelogin_extraction
-    mv $TEMP/kubelogin_extraction/kubelogin $LOCAL_BIN/kubelogin
-    rm -rf $TEMP/kubelogin_extraction $TEMP/kubelogin_linux_amd64.zip
+if ! is_installed kubectl
+then
+    install_kubectl
+    # download kubelogin plugin
+    if [[ ! -f $LOCAL_BIN/kubelogin ]]; then
+        wget https://github.com/int128/kubelogin/releases/download/v1.28.1/kubelogin_linux_amd64.zip -O $TEMP/kubelogin_linux_amd64.zip
+        unzip $TEMP/kubelogin_linux_amd64.zip -d $TEMP/kubelogin_extraction
+        mv $TEMP/kubelogin_extraction/kubelogin $LOCAL_BIN/kubelogin
+        rm -rf $TEMP/kubelogin_extraction $TEMP/kubelogin_linux_amd64.zip
+    fi
+else
+    echo "kubectl is already installed"
 fi
+
 ## kubectx
-if ! command -v kubectx &> /dev/null; then
+if ! is_installed kubectx
+then
     install_kubectx
+else
+    echo "kubectx is already installed"
 fi
 
 ## Chrome
 # Add chrome repo
-add_chrome_repo
-# Install chrome
-ag_install google-chrome-stable
+if ! is_installed google-chrome-stable
+then
+    add_chrome_repo
+    # Install chrome
+    ag_install google-chrome-stable
+else
+    echo "google chrome already installed"
+fi
 
 # install neovim
 # ag_install neovim
@@ -68,7 +97,8 @@ ag_install google-chrome-stable
 
 ## functions
 is_installed () {
-    sudo snap list $1 > /dev/null 2>&1
+    command -v $1 &> /dev/null
+    # sudo snap list $1 > /dev/null 2>&1
 }
 
 ag_install ()
