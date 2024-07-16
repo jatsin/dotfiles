@@ -18,4 +18,4 @@ cd dotfiles
 ```
 ## Install Everything
 
-To save reinstalling hassle, use [install_everything](https://github.com/jatsin/dotfiles/blob/update-readme/scripts/install_everything.sh) to install mostly required applications.
+To save reinstalling hassle, use [install_everything](scripts/install_everything.sh) to install mostly required applications.
