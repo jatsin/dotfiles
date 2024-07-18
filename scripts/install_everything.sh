@@ -166,7 +166,7 @@ then
     if [[ ! -f $LOCAL_BIN/kubelogin ]]; then
         wget https://github.com/int128/kubelogin/releases/download/v1.28.1/kubelogin_linux_amd64.zip -O $TEMP/kubelogin_linux_amd64.zip
         unzip $TEMP/kubelogin_linux_amd64.zip -d $TEMP/kubelogin_extraction
-        mv $TEMP/kubelogin_extraction/kubelogin $LOCAL_BIN/kubelogin
+        mv $TEMP/kubelogin_extraction/kubelogin $LOCAL_BIN/kubelogin-oidc_login
         rm -rf $TEMP/kubelogin_extraction $TEMP/kubelogin_linux_amd64.zip
     fi
 else
