@@ -3,9 +3,22 @@
 # Author: @jatsin
 
 ## functions
+append_to_file() {
+    grep $1 $2 || echo $1 >> $2
+}
+
+add_to_path () {
+    echo "Adding $1 in the path"
+    if echo $PATH | grep "$1" > /dev/null 2>&1; then
+        echo "Already in the path"
+    else
+	export PATH="$PATH:$1"
+	append_to_file "export PATH=$PATH:$1" $HOME/.zshrc
+    fi
+}
+
 is_installed () {
     command -v $1 &> /dev/null
-    # sudo snap list $1 > /dev/null 2>&1
 }
 
 ag_install ()
@@ -13,6 +26,12 @@ ag_install ()
     echo "installing $@ .."
     sudo apt-get update && sudo apt-get install -y $@
     [[ $? -eq 0 ]] && echo "Successfully installed $@" || echo "Failed to install $@"
+}
+
+snap_install () {
+    echo "installing $1 .."
+    sudo snap install $1
+    [[ $? -eq 0 ]] && echo "Successfully installed $1" || echo "Failed to install $1"
 }
 
 install_cloudflare_warp ()
@@ -65,7 +84,7 @@ install_kubectl ()
     [[ ! -d  $LOCAL_BIN ]] && mkdir -p $LOCAL_BIN
     [[ ! -f $LOCAL_BIN/kubectl ]] &&  mv ./kubectl ~/.local/bin/kubectl
     # and then append (or prepend) ~/.local/bin to $PATH
-    echo "export PATH=$PATH:$LOCAL_BIN" >> ~/.zshrc
+    add_to_path $LOCAL_BIN
     # reload # if aliases are set or . ./.zshrc
     echo "successfully installed kubectl"
 }
@@ -73,7 +92,7 @@ install_kubectl ()
 install_kubectx ()
 {
     if ! grep -q "deb \[trusted=yes\] http://ftp.de.debian.org/debian bookworm main" /etc/apt/sources.list; then
-        echo "deb [trusted=yes] http://ftp.de.debian.org/debian bookworm main" >> /etc/apt/sources.list
+        echo "deb [trusted=yes] http://ftp.de.debian.org/debian bookworm main" | sudo tee -a /etc/apt/sources.list
     fi
     # Add the server public keys
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0E98404D386FA1D9
@@ -116,7 +135,7 @@ LOCAL_BIN="$HOME/.local/bin"
 ### MAIN ###
 
 # install essential packages
-# ag_install $ESSENTIALS
+ag_install $ESSENTIALS
 
 ## Cloudflare warp
 # Install cloudflare warp
@@ -137,8 +156,6 @@ fi
 if ! is_installed zsh
 then
     ag_install zsh
-    # Install oh-my-zsh
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 else
     echo "zsh is already installed"
 fi
@@ -192,11 +209,20 @@ else
     echo "google chrome already installed"
 fi
 
+## Postman
+if ! is_installed postman
+then
+    # Install postman
+    snap_install postman
+else
+    echo "postman already installed"
+fi
+
 # install neovim
 # ag_install neovim
 
 # install tmux
-# ag_install tmux
+ag_install tmux
 
 # 1password
 if ! is_installed 1password
@@ -204,4 +230,12 @@ then
     install_1password
 else
     echo "1password is already installed"
+fi
+
+# flameshot
+if ! is_installed flameshot
+then
+    ag_install flameshot
+else
+    echo "flameshot already installed"
 fi
