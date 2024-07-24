@@ -243,7 +243,7 @@ fi
 # ag_install neovim
 
 # install tmux
-ag_install tmux
+# ag_install tmux
 
 # 1password
 if ! is_installed 1password
