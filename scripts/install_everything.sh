@@ -29,9 +29,9 @@ ag_install ()
 }
 
 snap_install () {
-    echo "installing $1 .."
-    sudo snap install $1
-    [[ $? -eq 0 ]] && echo "Successfully installed $1" || echo "Failed to install $1"
+    echo "installing $@ .."
+    sudo snap install $@
+    [[ $? -eq 0 ]] && echo "Successfully installed $@" || echo "Failed to install $@"
 }
 
 install_cloudflare_warp ()
@@ -87,6 +87,7 @@ install_kubectl ()
     add_to_path $LOCAL_BIN
     # reload # if aliases are set or . ./.zshrc
     echo "successfully installed kubectl"
+    popd
 }
 
 install_kubectx ()
@@ -124,6 +125,17 @@ add_chrome_repo ()
     sudo sh -c 'echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
 }
 
+install_ngrok ()
+{
+    # https://ngrok.com/docs/guides/device-gateway/linux/#step-1-install-the-ngrok-agent
+    NGROK_STABLE_VERSION="ngrok-v3-stable-linux-amd64.tgz"
+    wget https://bin.equinox.io/c/bNyj1mQVY4c/$NGROK_STABLE_VERSION -O $TEMP/$NGROK_STABLE_VERSION
+    pushd $TEMP
+    tar xvzf ./$NGROK_STABLE_VERSION -C $HOME/.local/bin
+    rm -rf $TEMP/$NGROK_STABLE_VERSION 
+    popd
+}
+
 # variables
 ESSENTIALS="git vim tmux zsh curl wget build-essential software-properties-common apt-transport-https ca-certificates gnupg lsb-release"
 DOWNLOADS_DIR="$HOME/Downloads"
@@ -158,6 +170,15 @@ then
     ag_install zsh
 else
     echo "zsh is already installed"
+fi
+
+## dotnet
+if ! is_installed dotnet
+then
+    ag_install dotnet-sdk-8.0
+    ag_install aspnetcore-runtime-8.0
+else
+    echo "dotnet already installed"
 fi
 
 ## Docker
@@ -209,13 +230,13 @@ else
     echo "google chrome already installed"
 fi
 
-## Postman
-if ! is_installed postman
+## ngrok
+if ! is_installed ngrok
 then
-    # Install postman
-    snap_install postman
+    # Install ngrok
+    install_ngrok
 else
-    echo "postman already installed"
+    echo "ngrok already installed"
 fi
 
 # install neovim
@@ -239,3 +260,32 @@ then
 else
     echo "flameshot already installed"
 fi
+
+### snap softwares
+## Postman
+if ! is_installed postman
+then
+    # Install postman
+    snap_install postman
+else
+    echo "postman already installed"
+fi
+
+## obsidian
+if ! is_installed obsidian
+then
+    # Install obsidian
+    snap_install obsidian --classic
+else
+    echo "obsidian already installed"
+fi
+
+## visual studio code
+if ! is_installed code
+then
+    # Install code
+    snap_install code --classic
+else
+    echo "obsidian already installed"
+fi
+
