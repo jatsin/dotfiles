@@ -85,7 +85,6 @@ install_kubectl ()
     [[ ! -f $LOCAL_BIN/kubectl ]] &&  mv ./kubectl ~/.local/bin/kubectl
     # and then append (or prepend) ~/.local/bin to $PATH
     add_to_path $LOCAL_BIN
-    # echo "export PATH=$PATH:$LOCAL_BIN" >> ~/.zshrc
     # reload # if aliases are set or . ./.zshrc
     echo "successfully installed kubectl"
 }
@@ -157,8 +156,6 @@ fi
 if ! is_installed zsh
 then
     ag_install zsh
-    # Install oh-my-zsh
-    # sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 else
     echo "zsh is already installed"
 fi
@@ -216,7 +213,7 @@ fi
 if ! is_installed postman
 then
     # Install postman
-    ag_install postman
+    snap_install postman
 else
     echo "postman already installed"
 fi
