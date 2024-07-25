@@ -2,15 +2,31 @@
 # Install script for the dotfiles
 # Author: @jatsin
 
+## Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
 ## functions
+debug () {
+    echo -e "[${CYAN}DEBUG${NC}] ${CYAN}$@${NC}"
+}
+success () {
+    echo -e "[${GREEN}SUCCESS${NC}] ${GREEN}$@${NC}"
+}
+error () {
+    echo -e "[${RED}ERROR${NC}] ${RED}$@${NC}"
+}
+
 append_to_file() {
     grep $1 $2 || echo $1 >> $2
 }
 
 add_to_path () {
-    echo "Adding $1 in the path"
+    debug "Adding $1 in the path"
     if echo $PATH | grep "$1" > /dev/null 2>&1; then
-        echo "Already in the path"
+        success "Already in the path"
     else
 	export PATH="$PATH:$1"
 	append_to_file "export PATH=$PATH:$1" $HOME/.zshrc
@@ -23,15 +39,15 @@ is_installed () {
 
 ag_install ()
 {
-    echo "installing $@ .."
+    debug "installing $@ .."
     sudo apt-get update && sudo apt-get install -y $@
-    [[ $? -eq 0 ]] && echo "Successfully installed $@" || echo "Failed to install $@"
+    [[ $? -eq 0 ]] && success "Successfully installed $@" || error "Failed to install $@"
 }
 
 snap_install () {
-    echo "installing $@ .."
+    debug "installing $@ .."
     sudo snap install $@
-    [[ $? -eq 0 ]] && echo "Successfully installed $@" || echo "Failed to install $@"
+    [[ $? -eq 0 ]] && success "Successfully installed $@" || error "Failed to install $@"
 }
 
 install_cloudflare_warp ()
@@ -70,7 +86,7 @@ install_docker ()
 
 install_kubectl ()
 {
-    echo "installing kubectl"
+    debug "installing kubectl"
     pushd $DOWNLOADS_DIR
     # Download the latest release
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -86,7 +102,7 @@ install_kubectl ()
     # and then append (or prepend) ~/.local/bin to $PATH
     add_to_path $LOCAL_BIN
     # reload # if aliases are set or . ./.zshrc
-    echo "successfully installed kubectl"
+    success "successfully installed kubectl"
     popd
 }
 
@@ -147,7 +163,7 @@ LOCAL_BIN="$HOME/.local/bin"
 ### MAIN ###
 
 # install essential packages
-ag_install $ESSENTIALS
+# ag_install $ESSENTIALS
 
 ## Cloudflare warp
 # Install cloudflare warp
@@ -160,7 +176,7 @@ then
     sudo cp $CLOUDFLATE_CERT /usr/share/ca-certificates/
     sudo dpkg-reconfigure ca-certificates
 else
-    echo "Cloudflare is already installed"
+    success "Cloudflare is already installed"
 fi
 
 ## zsh
@@ -169,7 +185,7 @@ if ! is_installed zsh
 then
     ag_install zsh
 else
-    echo "zsh is already installed"
+    success "zsh is already installed"
 fi
 
 ## dotnet
@@ -178,7 +194,7 @@ then
     ag_install dotnet-sdk-8.0
     ag_install aspnetcore-runtime-8.0
 else
-    echo "dotnet already installed"
+    success "dotnet already installed"
 fi
 
 ## Docker
@@ -192,7 +208,7 @@ then
     # Not necessary
     sudo chmod 666 /var/run/docker.sock
 else
-    echo "Docker is already installed"
+    success "Docker is already installed"
 fi
 
 ## kubectl
@@ -208,7 +224,7 @@ then
         rm -rf $TEMP/kubelogin_extraction $TEMP/kubelogin_linux_amd64.zip
     fi
 else
-    echo "kubectl is already installed"
+    success "kubectl is already installed"
 fi
 
 ## kubectx
@@ -216,7 +232,7 @@ if ! is_installed kubectx
 then
     install_kubectx
 else
-    echo "kubectx is already installed"
+    success "kubectx is already installed"
 fi
 
 ## Chrome
@@ -227,7 +243,7 @@ then
     # Install chrome
     ag_install google-chrome-stable
 else
-    echo "google chrome already installed"
+    success "google chrome already installed"
 fi
 
 ## ngrok
@@ -236,7 +252,7 @@ then
     # Install ngrok
     install_ngrok
 else
-    echo "ngrok already installed"
+    success "ngrok already installed"
 fi
 
 # install neovim
@@ -250,7 +266,7 @@ if ! is_installed 1password
 then
     install_1password
 else
-    echo "1password is already installed"
+    success "1password is already installed"
 fi
 
 # flameshot
@@ -258,7 +274,7 @@ if ! is_installed flameshot
 then
     ag_install flameshot
 else
-    echo "flameshot already installed"
+    success "flameshot already installed"
 fi
 
 ### snap softwares
@@ -268,7 +284,7 @@ then
     # Install postman
     snap_install postman
 else
-    echo "postman already installed"
+    success "postman already installed"
 fi
 
 ## obsidian
@@ -277,7 +293,7 @@ then
     # Install obsidian
     snap_install obsidian --classic
 else
-    echo "obsidian already installed"
+    success "obsidian already installed"
 fi
 
 ## visual studio code
@@ -286,6 +302,14 @@ then
     # Install code
     snap_install code --classic
 else
-    echo "obsidian already installed"
+    success "Visual Studio code already installed"
 fi
 
+## Slack
+if ! is_installed slack
+then
+    # Install slack
+    snap_install slack
+else
+    success "slack already installed"
+fi
