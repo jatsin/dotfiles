@@ -97,7 +97,6 @@ install_kubectl ()
 
     # install it in user's bin
     chmod +x kubectl
-    [[ ! -d  $LOCAL_BIN ]] && mkdir -p $LOCAL_BIN
     [[ ! -f $LOCAL_BIN/kubectl ]] &&  mv ./kubectl ~/.local/bin/kubectl
     # and then append (or prepend) ~/.local/bin to $PATH
     add_to_path $LOCAL_BIN
@@ -161,6 +160,8 @@ CLOUDFLATE_CERT="$DOWNLOADS_DIR/$CLOUDFLARE_CERT_FILE"
 LOCAL_BIN="$HOME/.local/bin"
 
 ### MAIN ###
+# create local bin directory
+[[ ! -d  $LOCAL_BIN ]] && mkdir -p $LOCAL_BIN
 
 # install essential packages
 # ag_install $ESSENTIALS
