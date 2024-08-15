@@ -100,8 +100,8 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-. "$HOME/.aliases"
-. "$HOME/.functions"
+[ -f "$HOME/.aliases" ] && . "$HOME/.aliases"
+[ -f "$HOME/.functions" ] && . "$HOME/.functions"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -110,6 +110,10 @@ fi
 
 # asdf
 . "$HOME/.asdf/asdf.sh"
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+# initialise completions with ZSH's compinit
+autoload -Uz compinit && compinit
 
 # fzf
 # Set up fzf key bindings and fuzzy completion
@@ -123,3 +127,6 @@ export PATH="$PATH:$HOME/.local/bin"
 
 # set vi on command line
 set -o vi
+
+# dotnet root for runtime
+export DOTNET_ROOT=$HOME/.dotnet
