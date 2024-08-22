@@ -102,37 +102,6 @@ require('lazy').setup({
     end,
   },
 
-
-  -- copilot
-  {
-    "zbirenbaum/copilot.lua",
-    enabled = true,
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = {
-      suggestion = { enabled = false },
-      panel = { enabled = false },
-    },
-    config = function()
-      require("copilot").setup({
-        suggestion = {
-          enabled = true,
-          auto_trigger = false,
-          debounce = 75,
-          keymap = {
-            accept = "<C-l>",
-            accept_word = false,
-            accept_line = false,
-            next = "<C-]>",
-            prev = "<C-[>",
-            dismiss = "<C-0>",
-          },
-        },
-      })
-    end,
-  },
-
-
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -366,7 +335,7 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {})
 
 -- [[ Setting options ]]
@@ -655,15 +624,32 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-}
+-- require('which-key').register {
+--     { "<leader>c", group = "[C]ode" },
+--     { "<leader>c_", hidden = true },
+--     { "<leader>d", group = "[D]ocument" },
+--     { "<leader>d_", hidden = true },
+--     { "<leader>g", group = "[G]it" },
+--     { "<leader>g_", hidden = true },
+--     { "<leader>h", group = "More git" },
+--     { "<leader>h_", hidden = true },
+--     { "<leader>r", group = "[R]ename" },
+--     { "<leader>r_", hidden = true },
+--     { "<leader>s", group = "[S]earch" },
+--     { "<leader>s_", hidden = true },
+--     { "<leader>w", group = "[W]orkspace" },
+--     { "<leader>w_", hidden = true },
+--   }
+
+-- require('which-key').register {
+--   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+--   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+--   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
+--   ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
+--   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+--   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+--   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+-- }
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
