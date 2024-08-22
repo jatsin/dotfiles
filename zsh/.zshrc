@@ -129,4 +129,5 @@ export PATH="$PATH:$HOME/.local/bin"
 set -o vi
 
 # dotnet root for runtime
-export DOTNET_ROOT=$HOME/.dotnet
+# if you have installed dotnet sdk manually in a custom location
+# export DOTNET_ROOT=$HOME/.dotnet
