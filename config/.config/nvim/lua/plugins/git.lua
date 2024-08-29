@@ -3,6 +3,8 @@ return {
     -- Git related plugins
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
+  },
+  {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -39,5 +41,5 @@ return {
         end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
       end,
     },
-  },
+  }
 }
