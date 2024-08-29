@@ -5,15 +5,3 @@ function o(){
       nvim .
   fi
 }
-
-function aws-session(){
-    if [ $# -eq 0 ]; then
-        echo "Auth code required"
-    else
-        resp=$(aws sts get-session-token --serial-number arn:aws:iam::154515722830:mfa/jatinder.braich@dubber.net --token-code $1 --duration-seconds 129600 --profile jatinder)
-        export AWS_ACCESS_KEY_ID=$(echo $resp | jq '.Credentials.AccessKeyId') 
-        export AWS_SECRET_ACCESS_KEY=$(echo $resp | jq '.Credentials.SecretAccessKey') 
-        export AWS_SESSION_TOKEN=$(echo $resp | jq '.Credentials.SessionToken') 
-    fi
-}
-
