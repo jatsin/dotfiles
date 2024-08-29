@@ -50,7 +50,7 @@ end
 local file_tests_command = function ()
   local current_file = vim.fn.expand('%')
   -- check if the file is a test file
-  if not string.match(current_file, "test") then
+  if not string.match(current_file, "_test.exs$") then
     print("This is not a test file")
     return false
   end
@@ -61,9 +61,9 @@ local file_tests_command = function ()
 end
 
 local current_test_command = function ()
-  local current_file = vim.fn.expand('%') -- get current file
+  local current_file = vim.fn.expand('%')
   -- check if the file is a test file
-  if not string.match(current_file, "test") then
+  if not string.match(current_file, "_test.exs$") then
     print("This is not a test file")
     return false
   end
