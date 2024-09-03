@@ -11,7 +11,8 @@ return {
       "nvim-neotest/neotest-vim-test",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "Issafalcon/neotest-dotnet"
+      -- "Issafalcon/neotest-dotnet" -- https://github.com/Issafalcon/neotest-dotnet/issues/114
+      "DarkKronicle/neotest-dotnet" -- until the above is fixed
     },
     config = function ()
       require("neotest").setup({
@@ -36,9 +37,8 @@ return {
             ignore_file_types = { "python", "vim", "lua" },
           }),
         },
-        log_level = 1,
+        -- log_level = 1,
       })
-      vim.cmd([[let g:neotest#log_level = 'debug']])
     end
   }
 }
