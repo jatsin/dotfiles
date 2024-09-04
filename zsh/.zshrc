@@ -124,6 +124,7 @@ export PATH="$PATH:$HOME/neovim/bin"
 
 # home bin
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.dotfiles/scripts"
 
 # set vi on command line
 set -o vi
