@@ -58,3 +58,5 @@ alias gopnick="cd $HOME/work/gopnick"
 alias gop="gopnick"
 alias dotfiles="cd ~/.dotfiles"
 alias dot="dotfiles"
+
+alias op="~/.dotfiles/scripts/open-project.sh"
