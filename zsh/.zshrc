@@ -132,3 +132,5 @@ set -o vi
 # dotnet root for runtime
 # if you have installed dotnet sdk manually in a custom location
 # export DOTNET_ROOT=$HOME/.dotnet
+# Add .NET Core SDK tools
+export PATH="$PATH:/Users/jatinderbraich/.dotnet/tools"
