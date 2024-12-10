@@ -25,10 +25,9 @@ URL=$1
 KEYCLOAK_URL="https://$URL/"
 REALM="dubber"
 CLIENT_ID="dubber-spa" #au_portal
-CLIENT_SECRET="3d32404b-04d4-458a-abe8-c90abfbfc444"
-USERNAME="pvt+alex+aadubtm_insights@dubber.net"
-PASSWORD="Dtest@123"
-# USERNAME="hulk@dubber.net"
+CLIENT_SECRET=""
+USERNAME=""
+PASSWORD=""
 
 # Construct token endpoint URL
 TOKEN_URL="${KEYCLOAK_URL}/auth/realms/$REALM/protocol/openid-connect/token"
