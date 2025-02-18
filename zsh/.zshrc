@@ -134,3 +134,5 @@ set -o vi
 # export DOTNET_ROOT=$HOME/.dotnet
 # Add .NET Core SDK tools
 export PATH="$PATH:/Users/jatinderbraich/.dotnet/tools"
+
+export AWS_CA_BUNDLE=/Users/jatinderbraich/.local/Cloudflare_CA.pem
