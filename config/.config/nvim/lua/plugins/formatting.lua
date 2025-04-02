@@ -14,6 +14,12 @@ return {
           {
             'buffers',
           }
+        },
+        lualine_b = {
+          {
+            'filename',
+            path = 1,
+          }
         }
       }
     },
