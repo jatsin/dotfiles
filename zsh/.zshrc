@@ -136,3 +136,4 @@ set -o vi
 export PATH="$PATH:/Users/jatinderbraich/.dotnet/tools"
 
 export AWS_CA_BUNDLE=/Users/jatinderbraich/.local/Cloudflare_CA.pem
+export PATH="/usr/local/opt/libpq/bin:$PATH"
