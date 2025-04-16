@@ -27,8 +27,9 @@ local function open_floating_window()
 end
 
 -- elixir umbrella app testing
-MixCommand = "MIX_ENV=test mix cmd"
-MixTest = "mix test"
+-- MIX_ENV=test mix do --app api cmd mix test
+MixCommand = "MIX_ENV=test mix do"
+MixTest = "cmd mix test"
 ExtraOptions = "--trace --color"
 
 local function get_app_name(current_file)
