@@ -137,3 +137,8 @@ export PATH="$PATH:/Users/jatinderbraich/.dotnet/tools"
 
 export AWS_CA_BUNDLE=/Users/jatinderbraich/.local/Cloudflare_CA.pem
 export PATH="/usr/local/opt/libpq/bin:$PATH"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/jatinderbraich/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
