@@ -137,3 +137,6 @@ export PATH="$PATH:/Users/jatinderbraich/.dotnet/tools"
 
 export AWS_CA_BUNDLE=/Users/jatinderbraich/.local/Cloudflare_CA.pem
 export PATH="/usr/local/opt/libpq/bin:$PATH"
+
+## local nvim from binaries
+export PATH=$PATH:$HOME/nvim-macos-x86_64/bin
