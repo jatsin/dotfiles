@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Get running containers
+running_containers=$(docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}" | tail -n +2)
+
+# Check if there are any running containers
+if [ -z "$running_containers" ]; then
+    echo "No running Docker containers found."
+    exit 1
+fi
+
+# Use fzf to select a container
+selected_container=$(echo "$running_containers" | fzf \
+    --header="Select a Docker container to view logs:" \
+    --preview="docker logs --tail=10 {1}" \
+    --preview-window=right:50% \
+    --prompt="Container: " \
+    --height=60% \
+    --border | awk '{print $1}')
+
+# Check if a container was selected
+if [ -z "$selected_container" ]; then
+    echo "No container selected. Exiting."
+    exit 0
+fi
+
+# Show logs with follow flag
+echo "Showing logs for container: $selected_container"
+echo "Press Ctrl+C to stop following logs"
+echo "----------------------------------------"
+
+docker logs -f "$selected_container"
