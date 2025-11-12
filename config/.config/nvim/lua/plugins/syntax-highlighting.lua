@@ -7,6 +7,7 @@ return {
         -- "tsx",
         -- "typescript",
         "elixir",
+        "heex",
       })
     end,
   },
