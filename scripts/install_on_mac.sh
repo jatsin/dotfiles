@@ -79,6 +79,67 @@ else
     brew_install zsh
 fi
 
+## oh-my-zsh
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+    debug "Installing oh-my-zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    [[ $? -eq 0 ]] && success "oh-my-zsh installed" || error "Failed to install oh-my-zsh"
+else
+    success "oh-my-zsh already installed"
+fi
+
+## asdf (version manager)
+if ! is_installed asdf; then
+    brew_install asdf
+    # Hook asdf into zsh
+    append_to_file '. "$(brew --prefix asdf)/libexec/asdf.sh"' "$HOME/.zshrc"
+    success "asdf installed — restart your terminal or run: source ~/.zshrc"
+else
+    success "asdf already installed"
+fi
+
+## fzf (fuzzy finder)
+if ! is_installed fzf; then
+    brew_install fzf
+    # Install key bindings and fuzzy completion (Ctrl-R history search, Ctrl-T file search, etc.)
+    "$(brew --prefix)/opt/fzf/install" --all --no-update-rc
+    success "fzf installed with key bindings"
+else
+    success "fzf already installed"
+fi
+
+## Nerd Fonts
+# Installing a curated selection — add/remove fonts to taste
+NERD_FONTS=(
+    font-jetbrains-mono-nerd-font   # great for coding
+    font-meslo-lg-nerd-font         # default for Powerlevel10k
+    font-fira-code-nerd-font        # popular with ligatures
+    font-hack-nerd-font             # clean and minimal
+)
+debug "Installing Nerd Fonts..."
+brew tap homebrew/cask-fonts 2>/dev/null || true   # tap may already exist
+for font in "${NERD_FONTS[@]}"; do
+    if brew list --cask "$font" &>/dev/null; then
+        success "$font already installed"
+    else
+        brew_cask_install "$font"
+    fi
+done
+
+## Tmux Plugin Manager (TPM)
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [[ ! -d "$TPM_DIR" ]]; then
+    debug "Installing Tmux Plugin Manager (TPM)..."
+    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+    [[ $? -eq 0 ]] && success "TPM installed at $TPM_DIR" || error "Failed to install TPM"
+    echo ""
+    debug "To finish TPM setup, ensure ~/.tmux.conf contains:"
+    echo "    run '~/.tmux/plugins/tpm/tpm'"
+    echo "  Then inside a live tmux session press: prefix + I   (capital i) to install plugins"
+else
+    success "TPM already installed"
+fi
+
 ## .NET SDK
 if ! is_installed dotnet; then
     brew_cask_install dotnet-sdk
@@ -138,7 +199,7 @@ fi
 ## 1Password
 if [[ ! -d "/Applications/1Password.app" ]]; then
     brew_cask_install 1password
-    brew_install 1password-cli   # installs the 'op' CLI tool
+    brew_install 1password-cli
 else
     success "1Password already installed"
 fi
@@ -180,4 +241,4 @@ else
 fi
 
 echo ""
-success "All done! You may need to restart your terminal or run 'source ~/.zshrc'."
+success "All done! Restart your terminal or run 'source ~/.zshrc' to apply all changes."
