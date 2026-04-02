@@ -109,7 +109,9 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # asdf
-. "$HOME/.asdf/asdf.sh"
+# . "$HOME/.asdf/asdf.sh"
+. $(brew --prefix asdf)/libexec/asdf.sh
+
 # append completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions with ZSH's compinit
@@ -135,7 +137,7 @@ set -o vi
 # Add .NET Core SDK tools
 export PATH="$PATH:/Users/jatinderbraich/.dotnet/tools"
 
-export AWS_CA_BUNDLE=/Users/jatinderbraich/.local/Cloudflare_CA.pem
+export AWS_CA_BUNDLE=/etc/ssl/cert.pem
 export PATH="/usr/local/opt/libpq/bin:$PATH"
 
 ## local nvim from binaries
