@@ -58,3 +58,6 @@ require("lazy").setup({
     },
   },
 })
+
+-- in house config
+require("config.elixir-umbrella-testing")
